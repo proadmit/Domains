@@ -63,23 +63,16 @@
       border-radius: 24px;
       padding: 28px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
-      position: relative;
     }
     h1 {
       font-size: clamp(28px, 4.5vw, 48px);
-      margin: 0 0 6px 0;
+      margin: 0 0 20px 0;
       font-weight: 800;
       letter-spacing: -0.02em;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-align: center;
-    }
-    h2 {
-      font-size: clamp(18px, 3vw, 26px);
-      margin: 0 0 14px 0;
-      font-weight: 700;
       text-align: center;
     }
     p {
@@ -124,37 +117,12 @@
       font-size: 12px;
       color: var(--muted);
     }
-    .lang-switch {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-    }
-    .lang-switch button {
-      margin-left: 5px;
-      padding: 4px 8px;
-      border: none;
-      border-radius: 6px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      color: white;
-      cursor: pointer;
-      font-weight: 600;
-      transition: opacity 0.3s;
-    }
-    .lang-switch button:hover {
-      opacity: 0.85;
-    }
   </style>
 </head>
 <body>
   <main class="wrap">
     <section class="card" role="dialog">
-      <div class="lang-switch">
-        <button onclick="setLanguage('uz')">UZ</button>
-        <button onclick="setLanguage('ru')">RU</button>
-        <button onclick="setLanguage('en')">EN</button>
-      </div>
       <h1 id="title"></h1>
-      <h2 id="subtitle"></h2>
       <p id="desc"></p>
       <div class="links">
         <a class="button" id="telegram" href="https://t.me/AdmitApp" target="_blank" rel="noopener noreferrer">Telegram</a>
@@ -170,55 +138,27 @@
     const texts = {
       uz: {
         title: "SAYT SOTILADI!",
-        subtitle: "Batafsil ma'lumot uchun bog'laning",
-        desc: "Quyidagi aloqa usullaridan birini tanlang:",
-        telegram: "Telegram",
-        whatsapp: "WhatsApp",
-        gmail: "Gmail"
+        desc: "Quyidagi aloqa usullaridan birini tanlang:"
       },
       ru: {
         title: "САЙТ ПРОДАЁТСЯ!",
-        subtitle: "Свяжитесь для подробностей",
-        desc: "Выберите удобный способ связи:",
-        telegram: "Телеграм",
-        whatsapp: "Ватсап",
-        gmail: "Почта"
+        desc: "Выберите удобный способ связи:"
       },
       en: {
         title: "SITE FOR SALE!",
-        subtitle: "Contact for details",
-        desc: "Choose one of the contact methods below:",
-        telegram: "Telegram",
-        whatsapp: "WhatsApp",
-        gmail: "Gmail"
+        desc: "Choose one of the contact methods below:"
       }
     };
 
-    function applyTexts(lang) {
-      document.getElementById('title').innerText = texts[lang].title;
-      document.getElementById('subtitle').innerText = texts[lang].subtitle;
-      document.getElementById('desc').innerText = texts[lang].desc;
-      document.getElementById('telegram').innerText = texts[lang].telegram;
-      document.getElementById('whatsapp').innerText = texts[lang].whatsapp;
-      document.getElementById('gmail').innerText = texts[lang].gmail;
-    }
-
     function detectLanguage() {
-      const savedLang = localStorage.getItem('site-lang');
-      if (savedLang && texts[savedLang]) return savedLang;
       const browserLang = navigator.language.slice(0,2);
       if (texts[browserLang]) return browserLang;
       return 'uz';
     }
 
-    function setLanguage(lang) {
-      localStorage.setItem('site-lang', lang);
-      applyTexts(lang);
-    }
-
-    // Initialize
     const userLang = detectLanguage();
-    applyTexts(userLang);
+    document.getElementById('title').innerText = texts[userLang].title;
+    document.getElementById('desc').innerText = texts[userLang].desc;
   </script>
 </body>
 </html>
