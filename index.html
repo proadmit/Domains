@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sayt sotiladi • Сайт продаётся</title>
-  <meta name="description" content="SAYT SOTILADI! • САЙТ ПРОДАЁТСЯ !" />
+  <title>Sayt sotiladi • Сайт продаётся • Site for Sale</title>
+  <meta name="description" content="SAYT SOTILADI! • САЙТ ПРОДАЁТСЯ ! • SITE FOR SALE!" />
   <style>
     :root {
       --accent: #22d3ee;
@@ -63,6 +63,7 @@
       border-radius: 24px;
       padding: 28px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+      position: relative;
     }
     h1 {
       font-size: clamp(28px, 4.5vw, 48px);
@@ -123,24 +124,101 @@
       font-size: 12px;
       color: var(--muted);
     }
+    .lang-switch {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+    }
+    .lang-switch button {
+      margin-left: 5px;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: opacity 0.3s;
+    }
+    .lang-switch button:hover {
+      opacity: 0.85;
+    }
   </style>
 </head>
 <body>
   <main class="wrap">
     <section class="card" role="dialog">
-      <h1>SAYT SOTILADI!</h1>
-      <h2>САЙТ ПРОДАЁТСЯ !</h2>
-      <p>Quyidagi aloqa usullaridan birini tanlang • Выберите удобный способ связи:</p>
+      <div class="lang-switch">
+        <button onclick="setLanguage('uz')">UZ</button>
+        <button onclick="setLanguage('ru')">RU</button>
+        <button onclick="setLanguage('en')">EN</button>
+      </div>
+      <h1 id="title"></h1>
+      <h2 id="subtitle"></h2>
+      <p id="desc"></p>
       <div class="links">
-        <a class="button" href="https://t.me/AdmitApp" target="_blank" rel="noopener noreferrer">Telegram</a>
-        <a class="button" href="https://wa.me/+15615523832" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-        <a class="button" href="mailto:hello@jurabaev.com" target="_blank" rel="noopener noreferrer">Gmail</a>
+        <a class="button" id="telegram" href="https://t.me/AdmitApp" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="button" id="whatsapp" href="https://wa.me/+15615523832" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="button" id="gmail" href="mailto:hello@jurabaev.com" target="_blank" rel="noopener noreferrer">Gmail</a>
       </div>
       <p class="footer">© <span id="year"></span></p>
     </section>
   </main>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const texts = {
+      uz: {
+        title: "SAYT SOTILADI!",
+        subtitle: "Batafsil ma'lumot uchun bog'laning",
+        desc: "Quyidagi aloqa usullaridan birini tanlang:",
+        telegram: "Telegram",
+        whatsapp: "WhatsApp",
+        gmail: "Gmail"
+      },
+      ru: {
+        title: "САЙТ ПРОДАЁТСЯ!",
+        subtitle: "Свяжитесь для подробностей",
+        desc: "Выберите удобный способ связи:",
+        telegram: "Телеграм",
+        whatsapp: "Ватсап",
+        gmail: "Почта"
+      },
+      en: {
+        title: "SITE FOR SALE!",
+        subtitle: "Contact for details",
+        desc: "Choose one of the contact methods below:",
+        telegram: "Telegram",
+        whatsapp: "WhatsApp",
+        gmail: "Gmail"
+      }
+    };
+
+    function applyTexts(lang) {
+      document.getElementById('title').innerText = texts[lang].title;
+      document.getElementById('subtitle').innerText = texts[lang].subtitle;
+      document.getElementById('desc').innerText = texts[lang].desc;
+      document.getElementById('telegram').innerText = texts[lang].telegram;
+      document.getElementById('whatsapp').innerText = texts[lang].whatsapp;
+      document.getElementById('gmail').innerText = texts[lang].gmail;
+    }
+
+    function detectLanguage() {
+      const savedLang = localStorage.getItem('site-lang');
+      if (savedLang && texts[savedLang]) return savedLang;
+      const browserLang = navigator.language.slice(0,2);
+      if (texts[browserLang]) return browserLang;
+      return 'uz';
+    }
+
+    function setLanguage(lang) {
+      localStorage.setItem('site-lang', lang);
+      applyTexts(lang);
+    }
+
+    // Initialize
+    const userLang = detectLanguage();
+    applyTexts(userLang);
   </script>
 </body>
 </html>
